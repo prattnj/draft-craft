@@ -1,0 +1,20 @@
+{
+  "name": "draft-craft-server",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "ws": "^8.18.0",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "@types/ws": "^8.5.10",
+    "@types/uuid": "^9.0.8",
+    "tsx": "^4.15.0",
+    "typescript": "^5.4.5"
+  }
+}
