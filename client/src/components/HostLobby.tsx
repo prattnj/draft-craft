@@ -1,12 +1,21 @@
+import { useEffect, useRef } from 'react'
 import { useGameStore } from '@/store/gameStore'
 import { useSocket } from '@/hooks/useSocket'
 import { useNavigate } from 'react-router-dom'
+import { soundPlayerJoined } from '@/sounds'
 import QRCode from '@/components/QRCode'
 
 export default function HostLobby() {
   const { room } = useGameStore()
   const { send } = useSocket()
   const navigate = useNavigate()
+  const prevCount = useRef(room?.players.length ?? 0)
+
+  useEffect(() => {
+    const count = room?.players.length ?? 0
+    if (count > prevCount.current) soundPlayerJoined()
+    prevCount.current = count
+  }, [room?.players.length])
 
   if (!room) return null
 

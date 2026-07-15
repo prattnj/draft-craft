@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useGameStore } from '@/store/gameStore'
 import { useSocket } from '@/hooks/useSocket'
 import { BankItem } from '@/types/game'
+import { soundYourTurn, soundAutoPick } from '@/sounds'
 import Timer from './Timer'
 import clsx from 'clsx'
 
@@ -14,12 +15,23 @@ export default function PlayerDraft() {
   const [search, setSearch] = useState('')
   const [pickingFor, setPickingFor] = useState<BankItem | null>(null)
 
+  const currentPickerId = room?.draft?.pickOrder[room.draft.currentPickIndex]
+  const isMyTurn = !!myId && currentPickerId === myId
+  const prevIsMyTurn = useRef(false)
+
+  useEffect(() => {
+    if (isMyTurn && !prevIsMyTurn.current) soundYourTurn()
+    prevIsMyTurn.current = isMyTurn
+  }, [isMyTurn])
+
+  useEffect(() => {
+    if (autoPick) soundAutoPick()
+  }, [autoPick])
+
   if (!room || !myId || !room.draft) return null
 
   const me = room.players.find(p => p.id === myId)!
   const draft = room.draft
-  const currentPickerId = draft.pickOrder[draft.currentPickIndex]
-  const isMyTurn = currentPickerId === myId
   const currentPicker = room.players.find(p => p.id === currentPickerId)
   const category = room.category
   const settings = room.settings

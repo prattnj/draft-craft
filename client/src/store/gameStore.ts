@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { RoomState, PreDraftItem } from '@/types/game'
+import { soundError } from '@/sounds'
 
 interface AutoPickPrompt {
   pick: PreDraftItem
@@ -25,7 +26,7 @@ export const useGameStore = create<GameStore>((set) => ({
   autoPick: null,
   setRoom: (room) => set({ room, autoPick: room.draft?.pendingAutoPick ? undefined : null }),
   setMyId: (myId) => set({ myId }),
-  setError: (error) => set({ error }),
+  setError: (error) => { if (error) soundError(); set({ error }) },
   setAutoPick: (autoPick) => set({ autoPick }),
   clearRoom: () => set({ room: null, myId: null, autoPick: null, error: null }),
 }))
