@@ -1,0 +1,7 @@
+services:
+  draft-craft:
+    build: .
+    container_name: draft-craft
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${PORT_DRAFTCRAFT:?Port environment variable must be set}:3000"

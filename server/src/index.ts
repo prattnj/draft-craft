@@ -4,7 +4,7 @@ import { WebSocketServer } from 'ws'
 import sirv from 'sirv'
 import { handleConnection } from './rooms'
 
-const PORT = parseInt(process.env.PORT ?? '3014', 10)
+const PORT = 3000
 const clientDist = path.resolve(__dirname, '../../client/dist')
 const serveStatic = sirv(clientDist, { single: true })
 
